@@ -27,49 +27,24 @@
           <div class="content__dough">
             <div class="sheet">
               <h2 class="title title--small sheet__title">Выберите тесто</h2>
-
-              <div class="sheet__content dough">
-                <label
-                  :class="`dough__input dough__input--${doughClass(dough.id)}`"
-                  v-for="dough in pizza.dough"
-                  :key="dough.id"
-                >
-                  <input
-                    type="radio"
-                    name="dough"
-                    :value="dough.id"
-                    class="visually-hidden"
-                    v-model="currentPizza.dough"
-                  />
-                  <b>{{ dough.name }}</b>
-                  <span>{{ dough.description }}</span>
-                </label>
-              </div>
+              <radio-button
+                :options="pizza.dough"
+                :typeProp="'dough'"
+                :current="currentPizza.dough"
+                @setCurrent="currentPizza.dough = $event"
+              />
             </div>
           </div>
 
           <div class="content__diameter">
             <div class="sheet">
               <h2 class="title title--small sheet__title">Выберите размер</h2>
-
-              <div class="sheet__content diameter">
-                <label
-                  :class="`diameter__input diameter__input--${sizeClass(
-                    size.id
-                  )}`"
-                  v-for="size in pizza.sizes"
-                  :key="size.id"
-                >
-                  <input
-                    type="radio"
-                    name="diameter"
-                    :value="size.id"
-                    class="visually-hidden"
-                    v-model="currentPizza.size"
-                  />
-                  <span>{{ size.name }}</span>
-                </label>
-              </div>
+              <radio-button
+                :typeProp="'diameter'"
+                :options="pizza.sizes"
+                :current="currentPizza.size"
+                @setCurrent="currentPizza.size = $event"
+              />
             </div>
           </div>
 
@@ -80,23 +55,13 @@
               </h2>
 
               <div class="sheet__content ingredients">
-                <div class="ingredients__sauce">
-                  <p>Основной соус:</p>
-
-                  <label
-                    class="radio ingredients__input"
-                    v-for="sauce in pizza.sauces"
-                    :key="sauce.id"
-                  >
-                    <input
-                      type="radio"
-                      name="sauce"
-                      :value="sauce.id"
-                      v-model="currentPizza.sauce"
-                    />
-                    <span>{{ sauce.name }}</span>
-                  </label>
-                </div>
+                <radio-button
+                  title="Основной соус:"
+                  :typeProp="'sauce'"
+                  :options="pizza.sauces"
+                  :current="currentPizza.sauce"
+                  @setCurrent="currentPizza.sauce = $event"
+                />
 
                 <div class="ingredients__filling">
                   <p>Начинка:</p>
@@ -192,8 +157,10 @@
 
 <script>
 import pizzaJson from "../static/pizza.json";
+import RadioButton from "../common/components/RadioButton";
 
 export default {
+  components: { RadioButton },
   data() {
     return {
       pizza: pizzaJson,
@@ -254,16 +221,6 @@ export default {
     },
   },
   methods: {
-    doughClass(id) {
-      switch (id) {
-        case 1:
-          return "light";
-        case 2:
-          return "large";
-        default:
-          return null;
-      }
-    },
     sizeClass(id) {
       switch (id) {
         case 1:
