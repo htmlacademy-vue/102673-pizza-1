@@ -72,12 +72,7 @@
                       v-for="(ingredient, index) in pizza.ingredients"
                       :key="ingredient.id"
                     >
-                      <span
-                        :class="`filling filling--${ingredientClass(
-                          ingredient.id
-                        )}`"
-                        >{{ ingredient.name }}</span
-                      >
+                      <selector-item :item="ingredient" />
                       <item-counter
                         :current="currentPizza.ingredients[index].count"
                       />
@@ -136,9 +131,10 @@
 import pizzaJson from "../static/pizza.json";
 import RadioButton from "../common/components/RadioButton";
 import ItemCounter from "../common/components/ItemCounter";
+import SelectorItem from "../common/components/SelectorItem";
 
 export default {
-  components: { RadioButton, ItemCounter },
+  components: { SelectorItem, RadioButton, ItemCounter },
   data() {
     return {
       pizza: pizzaJson,
