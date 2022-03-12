@@ -1,23 +1,6 @@
 <template>
   <div>
-    <header class="header">
-      <div class="header__logo">
-        <a href="#" class="logo">
-          <img
-            src="../assets/img/logo.svg"
-            alt="V!U!E! Pizza logo"
-            width="90"
-            height="40"
-          />
-        </a>
-      </div>
-      <div class="header__cart">
-        <a href="#">0 ₽</a>
-      </div>
-      <div class="header__user">
-        <a href="#" class="header__login"><span>Войти</span></a>
-      </div>
-    </header>
+    <app-layout />
 
     <main class="content">
       <form action="#" method="post">
@@ -54,32 +37,13 @@
               />
             </label>
 
-            <div class="content__constructor">
-              <div
-                :class="`pizza pizza--foundation--${sizeClass(
-                  currentPizza.size
-                )}-${sauceClass(currentPizza.sauce)}`"
-              >
-                <div class="pizza__wrapper">
-                  <div
-                    v-for="ingredient in currentPizza.ingredients.filter(
-                      (item) => item.count > 0
-                    )"
-                    :key="ingredient.id"
-                    :class="`pizza__filling pizza__filling--${ingredientClass(
-                      ingredient.id
-                    )}`"
-                  ></div>
-                </div>
-              </div>
-            </div>
+            <builder-pizza-view
+              :currentSize="currentPizza.size"
+              :currentSauce="currentPizza.sauce"
+              :currentIngredients="currentPizza.ingredients"
+            />
 
-            <div class="content__result">
-              <p>Итого: {{ price }} ₽</p>
-              <button type="button" class="button" :disabled="price === 0">
-                Готовьте!
-              </button>
-            </div>
+            <builder-price-counter :currentPizza="currentPizza" />
           </div>
         </div>
       </form>
@@ -90,12 +54,18 @@
 <script>
 import pizzaJson from "../static/pizza.json";
 
+import AppLayout from "../layouts/AppLayout";
 import BuilderDoughSelector from "../components/builder/BuilderDoughSelector";
 import BuilderSizeSelector from "../components/builder/BuilderSizeSelector";
 import BuilderIngredientsSelector from "../components/builder/BuilderIngredientsSelector";
+import BuilderPriceCounter from "../components/builder/BuilderPriceCounter";
+import BuilderPizzaView from "../components/builder/BuilderPizzaView";
 
 export default {
   components: {
+    AppLayout,
+    BuilderPizzaView,
+    BuilderPriceCounter,
     BuilderIngredientsSelector,
     BuilderDoughSelector,
     BuilderSizeSelector,
@@ -128,37 +98,7 @@ export default {
       },
     };
   },
-  computed: {
-    price: function () {
-      let priceDough,
-        priceSauce,
-        multiplierSize,
-        priceIngredient = 0;
 
-      priceDough = this.pizza.dough.filter(
-        (item) => item.id === this.currentPizza.dough
-      )[0].price;
-
-      priceSauce = this.pizza.sauces.filter(
-        (item) => item.id === this.currentPizza.sauce
-      )[0].price;
-
-      multiplierSize = this.pizza.sizes.filter(
-        (item) => item.id === this.currentPizza.size
-      )[0].multiplier;
-
-      for (let ingredient of this.pizza.ingredients) {
-        let countIngredient = this.currentPizza.ingredients.filter(
-          (item) => item.id === ingredient.id
-        )[0].count;
-
-        if (countIngredient > 0) {
-          priceIngredient += countIngredient * ingredient.price;
-        }
-      }
-      return multiplierSize * (priceDough + priceSauce + priceIngredient);
-    },
-  },
   methods: {
     sizeClass(id) {
       switch (id) {
