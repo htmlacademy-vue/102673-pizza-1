@@ -36,40 +36,12 @@
             @setSize="currentPizza.size = $event"
           />
 
-          <div class="content__ingredients">
-            <div class="sheet">
-              <h2 class="title title--small sheet__title">
-                Выберите ингредиенты
-              </h2>
-
-              <div class="sheet__content ingredients">
-                <radio-button
-                  title="Основной соус:"
-                  :typeProp="'sauce'"
-                  :options="pizza.sauces"
-                  :current="currentPizza.sauce"
-                  @setCurrent="currentPizza.sauce = $event"
-                />
-
-                <div class="ingredients__filling">
-                  <p>Начинка:</p>
-
-                  <ul class="ingredients__list">
-                    <li
-                      class="ingredients__item"
-                      v-for="(ingredient, index) in pizza.ingredients"
-                      :key="ingredient.id"
-                    >
-                      <selector-item :item="ingredient" />
-                      <item-counter
-                        :current="currentPizza.ingredients[index].count"
-                      />
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <builder-ingredients-selector
+            :sauces="pizza.sauces"
+            :currentSauce="currentPizza.sauce"
+            :ingredients="pizza.ingredients"
+            :currentIngredients="currentPizza.ingredients"
+          />
 
           <div class="content__pizza">
             <label class="input">
@@ -118,19 +90,15 @@
 <script>
 import pizzaJson from "../static/pizza.json";
 
-import ItemCounter from "../common/components/ItemCounter";
-import SelectorItem from "../common/components/SelectorItem";
-import RadioButton from "../common/components/RadioButton";
 import BuilderDoughSelector from "../components/builder/BuilderDoughSelector";
 import BuilderSizeSelector from "../components/builder/BuilderSizeSelector";
+import BuilderIngredientsSelector from "../components/builder/BuilderIngredientsSelector";
 
 export default {
   components: {
+    BuilderIngredientsSelector,
     BuilderDoughSelector,
     BuilderSizeSelector,
-    SelectorItem,
-    RadioButton,
-    ItemCounter,
   },
   data() {
     return {
