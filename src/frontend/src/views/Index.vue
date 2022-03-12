@@ -24,17 +24,11 @@
         <div class="content__wrapper">
           <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <div class="content__dough">
-            <div class="sheet">
-              <h2 class="title title--small sheet__title">Выберите тесто</h2>
-              <radio-button
-                :options="pizza.dough"
-                :typeProp="'dough'"
-                :current="currentPizza.dough"
-                @setCurrent="currentPizza.dough = $event"
-              />
-            </div>
-          </div>
+          <builder-dough-selector
+            :dough="pizza.dough"
+            :currentDough="currentPizza.dough"
+            @setDough="currentPizza.dough = $event"
+          />
 
           <div class="content__diameter">
             <div class="sheet">
@@ -129,12 +123,14 @@
 
 <script>
 import pizzaJson from "../static/pizza.json";
-import RadioButton from "../common/components/RadioButton";
+
 import ItemCounter from "../common/components/ItemCounter";
 import SelectorItem from "../common/components/SelectorItem";
+import RadioButton from "../common/components/RadioButton";
+import BuilderDoughSelector from "../components/builder/BuilderDoughSelector";
 
 export default {
-  components: { SelectorItem, RadioButton, ItemCounter },
+  components: { BuilderDoughSelector, SelectorItem, RadioButton, ItemCounter },
   data() {
     return {
       pizza: pizzaJson,
