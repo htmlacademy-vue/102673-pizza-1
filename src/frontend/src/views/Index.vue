@@ -78,32 +78,9 @@
                         )}`"
                         >{{ ingredient.name }}</span
                       >
-
-                      <div class="counter counter--orange ingredients__counter">
-                        <button
-                          type="button"
-                          class="counter__button counter__button--minus"
-                          :disabled="
-                            currentPizza.ingredients[index].count === 0
-                          "
-                          @click="reduceCount(index)"
-                        >
-                          <span class="visually-hidden">Меньше</span>
-                        </button>
-                        <input
-                          type="text"
-                          name="counter"
-                          class="counter__input"
-                          :value="currentPizza.ingredients[index].count"
-                        />
-                        <button
-                          type="button"
-                          class="counter__button counter__button--plus"
-                          @click="increaseCount(index)"
-                        >
-                          <span class="visually-hidden">Больше</span>
-                        </button>
-                      </div>
+                      <item-counter
+                        :current="currentPizza.ingredients[index].count"
+                      />
                     </li>
                   </ul>
                 </div>
@@ -158,9 +135,10 @@
 <script>
 import pizzaJson from "../static/pizza.json";
 import RadioButton from "../common/components/RadioButton";
+import ItemCounter from "../common/components/ItemCounter";
 
 export default {
-  components: { RadioButton },
+  components: { RadioButton, ItemCounter },
   data() {
     return {
       pizza: pizzaJson,
@@ -278,12 +256,6 @@ export default {
         default:
           return null;
       }
-    },
-    increaseCount(i) {
-      this.currentPizza.ingredients[i].count++;
-    },
-    reduceCount(i) {
-      this.currentPizza.ingredients[i].count--;
     },
   },
 };
