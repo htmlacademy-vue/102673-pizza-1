@@ -30,17 +30,11 @@
             @setDough="currentPizza.dough = $event"
           />
 
-          <div class="content__diameter">
-            <div class="sheet">
-              <h2 class="title title--small sheet__title">Выберите размер</h2>
-              <radio-button
-                :typeProp="'diameter'"
-                :options="pizza.sizes"
-                :current="currentPizza.size"
-                @setCurrent="currentPizza.size = $event"
-              />
-            </div>
-          </div>
+          <builder-size-selector
+            :sizes="pizza.sizes"
+            :currentSize="currentPizza.size"
+            @setSize="currentPizza.size = $event"
+          />
 
           <div class="content__ingredients">
             <div class="sheet">
@@ -128,9 +122,16 @@ import ItemCounter from "../common/components/ItemCounter";
 import SelectorItem from "../common/components/SelectorItem";
 import RadioButton from "../common/components/RadioButton";
 import BuilderDoughSelector from "../components/builder/BuilderDoughSelector";
+import BuilderSizeSelector from "../components/builder/BuilderSizeSelector";
 
 export default {
-  components: { BuilderDoughSelector, SelectorItem, RadioButton, ItemCounter },
+  components: {
+    BuilderDoughSelector,
+    BuilderSizeSelector,
+    SelectorItem,
+    RadioButton,
+    ItemCounter,
+  },
   data() {
     return {
       pizza: pizzaJson,
