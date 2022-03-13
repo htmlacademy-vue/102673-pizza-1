@@ -9,7 +9,7 @@
           :typeProp="'sauce'"
           :options="sauces"
           :current="currentSauce"
-          @setCurrent="currentSauce = $event"
+          @setCurrent="setSauce($event)"
         />
 
         <div class="ingredients__filling">
@@ -22,7 +22,10 @@
               :key="ingredient.id"
             >
               <selector-item :item="ingredient" />
-              <item-counter :current="currentIngredients[index].count" />
+              <item-counter
+                :count="currentIngredients[index].count"
+                @setCount="setIngredient($event, index)"
+              />
             </li>
           </ul>
         </div>
@@ -55,6 +58,14 @@ export default {
     },
     currentIngredients: {
       type: Array,
+    },
+  },
+  methods: {
+    setSauce(sauce) {
+      this.$emit("setSauce", sauce);
+    },
+    setIngredient(count, index) {
+      this.$emit("setIngredient", { count: count, index: index });
     },
   },
 };

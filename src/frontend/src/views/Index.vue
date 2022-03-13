@@ -24,6 +24,10 @@
             :currentSauce="currentPizza.sauce"
             :ingredients="pizza.ingredients"
             :currentIngredients="currentPizza.ingredients"
+            @setSauce="currentPizza.sauce = $event"
+            @setIngredient="
+              currentPizza.ingredients[$event.index].count = $event.count
+            "
           />
 
           <div class="content__pizza">

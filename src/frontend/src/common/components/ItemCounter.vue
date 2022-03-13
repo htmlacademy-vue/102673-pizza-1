@@ -8,7 +8,12 @@
     >
       <span class="visually-hidden">Меньше</span>
     </button>
-    <input type="text" name="counter" class="counter__input" :value="current" />
+    <input
+      type="text"
+      name="counter"
+      class="counter__input"
+      v-model="countData"
+    />
     <button
       type="button"
       class="counter__button counter__button--plus"
@@ -22,8 +27,13 @@
 <script>
 export default {
   name: "ItemCounter",
+  data() {
+    return {
+      countData: this.count,
+    };
+  },
   props: {
-    current: {
+    count: {
       type: Number,
       default: 0,
       required: true,
@@ -31,15 +41,17 @@ export default {
   },
   methods: {
     increaseCount() {
-      this.current++;
+      this.countData++;
+      this.$emit("setCount", this.countData);
     },
     reduceCount() {
-      this.current--;
+      this.countData--;
+      this.$emit("setCount", this.countData);
     },
   },
   computed: {
     isDisabled: function () {
-      return this.current === 0;
+      return this.countData === 0;
     },
   },
 };
