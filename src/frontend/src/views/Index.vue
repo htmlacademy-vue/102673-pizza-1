@@ -41,11 +41,13 @@
               />
             </label>
 
-            <builder-pizza-view
-              :currentSize="currentPizza.size"
-              :currentSauce="currentPizza.sauce"
-              :currentIngredients="currentPizza.ingredients"
-            />
+            <div @dragover.prevent @dragenter.prevent @drop="onDrop($event)">
+              <builder-pizza-view
+                :currentSize="currentPizza.size"
+                :currentSauce="currentPizza.sauce"
+                :currentIngredients="currentPizza.ingredients"
+              />
+            </div>
 
             <builder-price-counter :currentPizza="currentPizza" />
           </div>
@@ -102,7 +104,6 @@ export default {
       },
     };
   },
-
   methods: {
     sizeClass(id) {
       switch (id) {
@@ -155,15 +156,28 @@ export default {
         case 13:
           return "mozzarella";
         case 14:
-          return "parmezan";
+          return "parmesan";
         case 15:
           return "blue_cheese";
         default:
           return null;
       }
     },
+    setIngredients(e) {
+      this.currentPizza.ingredients[e.id].count = e.count;
+    },
+    onDrop(e) {
+      if (!e) {
+        return;
+      }
+      const ingredientId = parseInt(e.dataTransfer.getData("itemId"));
+      this.currentPizza.ingredients.map((x) => {
+        if (x.id === ingredientId) {
+          x.count++;
+        }
+        return x;
+      });
+    },
   },
 };
 </script>
-
-<style></style>

@@ -21,7 +21,14 @@
               v-for="(ingredient, index) in ingredients"
               :key="ingredient.id"
             >
-              <selector-item :item="ingredient" />
+              <div
+                draggable="true"
+                @dragstart="onDragStart($event, ingredient)"
+                @dragover.prevent
+                @dragenter.prevent
+              >
+                <selector-item :item="ingredient" />
+              </div>
               <item-counter
                 :count="currentIngredients[index].count"
                 @setCount="setIngredient($event, index)"
@@ -38,6 +45,7 @@
 import RadioButton from "../../common/components/RadioButton";
 import SelectorItem from "../../common/components/SelectorItem";
 import ItemCounter from "../../common/components/ItemCounter";
+import { MOVE } from "../../common/constants";
 
 export default {
   name: "BuilderIngredientsSelector",
@@ -65,10 +73,20 @@ export default {
       this.$emit("setSauce", sauce);
     },
     setIngredient(count, index) {
+      this.currentIngredients[index].count = count;
       this.$emit("setIngredient", { count: count, index: index });
+    },
+    onDragStart(e, item) {
+      e.dataTransfer.dropEffect = MOVE;
+      e.dataTransfer.effectAllowed = MOVE;
+      e.dataTransfer.setData("itemId", item.id.toString());
     },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+selector-item {
+  cursor: pointer;
+}
+</style>

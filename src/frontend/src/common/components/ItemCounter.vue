@@ -12,7 +12,8 @@
       type="text"
       name="counter"
       class="counter__input"
-      v-model="countData"
+      :value="countData"
+      @input="countData = $event.target.value"
     />
     <button
       type="button"

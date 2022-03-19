@@ -43,7 +43,7 @@ export default {
         case 13:
           return "mozzarella";
         case 14:
-          return "parmezan";
+          return "parmesan";
         case 15:
           return "blue_cheese";
         default:

@@ -57,6 +57,19 @@ export default {
     },
   },
   methods: {
+    // onDrop(e) {
+    //   if (!e) {
+    //     return;
+    //   }
+    //   const ingredientId = parseInt(e.dataTransfer.getData("itemId"));
+    //   this.currentIngredients.map((x) => {
+    //     if (x.id === ingredientId) {
+    //       x.count++;
+    //       this.$emit("setIngredients", { id: x.id, count: x.count });
+    //     }
+    //     return x;
+    //   });
+    // },
     ingredientClass(id) {
       switch (id) {
         case 1:
@@ -86,7 +99,7 @@ export default {
         case 13:
           return "mozzarella";
         case 14:
-          return "parmezan";
+          return "parmesan";
         case 15:
           return "blue_cheese";
         default:
